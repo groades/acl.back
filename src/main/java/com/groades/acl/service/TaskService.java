@@ -1,9 +1,10 @@
 package com.groades.acl.service;
 
+import com.groades.acl.api.request.TaskUpdateRequest;
 import com.groades.acl.persistence.entity.TaskEntity;
 import com.groades.acl.api.reponse.TaskResponse;
 import com.groades.acl.persistence.repository.ITaskRepository;
-import com.groades.acl.api.request.TaskCreationRequest;
+import com.groades.acl.api.request.TaskCreateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ import java.util.Optional;
 public class TaskService {
     private final ITaskRepository taskRepository;
 
-    public TaskResponse create(TaskCreationRequest request){
+    public TaskResponse create(TaskCreateRequest request){
         var task = TaskEntity.builder()
                 .description(request.getDescription())
                 .isvalid(true)
@@ -56,5 +57,26 @@ public class TaskService {
                 .isdeleted(savedTask.getIsdeleted())
                 .created(savedTask.getCreated())
                 .build();
+    }
+
+    public TaskResponse update(TaskUpdateRequest request) {
+        Optional<TaskEntity> optTask = taskRepository.findById(request.getId());
+        //if(!optTask.isPresent()){
+        //System.out.println("The task does not exist");
+        //}
+        TaskEntity task = optTask.get();
+
+        task.setDescription(request.getDescription());
+        task.setIsvalid(request.getIsvalid());
+        var savedTask = taskRepository.save(task);
+        return TaskResponse
+                .builder()
+                .id(savedTask.getId())
+                .description(savedTask.getDescription())
+                .isvalid(savedTask.getIsvalid())
+                .isdeleted(savedTask.getIsdeleted())
+                .created(savedTask.getCreated())
+                .build();
+
     }
 }

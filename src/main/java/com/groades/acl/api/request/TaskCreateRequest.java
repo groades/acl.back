@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TaskCreationRequest {
+public class TaskCreateRequest {
     @NotNull(message = "Description is mandatory")
     @NotBlank(message = "Description is mandatory")
     private String description;

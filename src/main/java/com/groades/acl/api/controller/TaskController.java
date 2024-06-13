@@ -1,9 +1,10 @@
 package com.groades.acl.api.controller;
 
 
+import com.groades.acl.api.request.TaskUpdateRequest;
 import com.groades.acl.persistence.entity.TaskEntity;
 import com.groades.acl.api.reponse.TaskResponse;
-import com.groades.acl.api.request.TaskCreationRequest;
+import com.groades.acl.api.request.TaskCreateRequest;
 import com.groades.acl.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class TaskController {
 
     @PostMapping("/create")
     public ResponseEntity<TaskResponse> create(
-            @Validated @RequestBody TaskCreationRequest request
+            @Validated @RequestBody TaskCreateRequest request
     ){
         return ResponseEntity.ok(taskService.create(request));
     }
@@ -32,6 +33,11 @@ public class TaskController {
     @PutMapping("/delete/{id}")
     public ResponseEntity<TaskResponse> delete(@PathVariable Integer id){
         return ResponseEntity.ok(taskService.delete(id));
+    }
+    @PutMapping
+    public ResponseEntity<TaskResponse> update(
+            @Validated @RequestBody TaskUpdateRequest request){
+        return ResponseEntity.ok(taskService.update(request));
     }
 
 
