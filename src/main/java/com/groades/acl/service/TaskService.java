@@ -37,7 +37,10 @@ public class TaskService {
 
     public List<TaskEntity> getAll() {
         List<TaskEntity> taskList = new ArrayList<>();
-        taskRepository.findAll().forEach(taskList::add);
+        taskRepository.findAll()
+                .stream()
+                .filter(t->!t.getIsdeleted())
+                .forEach(taskList::add);
         return taskList;
 
     }
