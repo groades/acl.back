@@ -22,3 +22,6 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
 application:
   name: acl
+springdoc:
+  api-docs:
+    path: /javainuse-openapi
