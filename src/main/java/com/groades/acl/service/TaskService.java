@@ -1,5 +1,6 @@
 package com.groades.acl.service;
 
+import com.groades.acl.api.exception.TaskNotFoundException;
 import com.groades.acl.api.request.TaskUpdateRequest;
 import com.groades.acl.persistence.entity.TaskEntity;
 import com.groades.acl.api.reponse.TaskResponse;
@@ -43,9 +44,9 @@ public class TaskService {
 
     public TaskResponse delete(Integer id) {
         Optional<TaskEntity> optTask = taskRepository.findById(id);
-        //if(!optTask.isPresent()){
-            //System.out.println("The task does not exist");
-        //}
+        if(!optTask.isPresent()){
+            throw new TaskNotFoundException(id);
+        }
         TaskEntity task = optTask.get();
         task.setIsdeleted(true);
         var savedTask = taskRepository.save(task);
@@ -60,10 +61,11 @@ public class TaskService {
     }
 
     public TaskResponse update(TaskUpdateRequest request) {
-        Optional<TaskEntity> optTask = taskRepository.findById(request.getId());
-        //if(!optTask.isPresent()){
-        //System.out.println("The task does not exist");
-        //}
+        var id = request.getId();
+        Optional<TaskEntity> optTask = taskRepository.findById(id);
+        if(!optTask.isPresent()){
+            throw new TaskNotFoundException(id);
+        }
         TaskEntity task = optTask.get();
 
         task.setDescription(request.getDescription());
