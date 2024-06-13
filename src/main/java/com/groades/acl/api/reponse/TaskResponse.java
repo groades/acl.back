@@ -1,4 +1,4 @@
-package com.groades.acl.reponse;
+package com.groades.acl.api.reponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,4 +17,5 @@ public class TaskResponse {
     private String description;
     private LocalDateTime created;
     private Boolean isvalid;
+    private Boolean isdeleted;
 }

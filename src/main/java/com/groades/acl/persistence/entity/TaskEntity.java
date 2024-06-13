@@ -1,4 +1,4 @@
-package com.groades.acl.entity;
+package com.groades.acl.persistence.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,4 +26,5 @@ public class TaskEntity {
     @CreationTimestamp
     private LocalDateTime created;
     private Boolean isvalid;
+    private Boolean isdeleted;
 }

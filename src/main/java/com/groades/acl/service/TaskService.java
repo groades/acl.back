@@ -1,14 +1,15 @@
 package com.groades.acl.service;
 
-import com.groades.acl.entity.TaskEntity;
-import com.groades.acl.reponse.TaskResponse;
-import com.groades.acl.repository.ITaskRepository;
-import com.groades.acl.request.TaskCreationRequest;
+import com.groades.acl.persistence.entity.TaskEntity;
+import com.groades.acl.api.reponse.TaskResponse;
+import com.groades.acl.persistence.repository.ITaskRepository;
+import com.groades.acl.api.request.TaskCreationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +20,7 @@ public class TaskService {
         var task = TaskEntity.builder()
                 .description(request.getDescription())
                 .isvalid(true)
+                .isdeleted(false)
                 .build();
         var savedTask = taskRepository.save(task);
         return TaskResponse
@@ -26,6 +28,7 @@ public class TaskService {
                 .id(savedTask.getId())
                 .description(savedTask.getDescription())
                 .isvalid(savedTask.getIsvalid())
+                .isdeleted(savedTask.getIsdeleted())
                 .created(savedTask.getCreated())
                 .build();
     }
@@ -35,5 +38,23 @@ public class TaskService {
         taskRepository.findAll().forEach(taskList::add);
         return taskList;
 
+    }
+
+    public TaskResponse delete(Integer id) {
+        Optional<TaskEntity> optTask = taskRepository.findById(id);
+        //if(!optTask.isPresent()){
+            //System.out.println("The task does not exist");
+        //}
+        TaskEntity task = optTask.get();
+        task.setIsdeleted(true);
+        var savedTask = taskRepository.save(task);
+        return TaskResponse
+                .builder()
+                .id(savedTask.getId())
+                .description(savedTask.getDescription())
+                .isvalid(savedTask.getIsvalid())
+                .isdeleted(savedTask.getIsdeleted())
+                .created(savedTask.getCreated())
+                .build();
     }
 }

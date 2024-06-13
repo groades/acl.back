@@ -1,16 +1,15 @@
-package com.groades.acl.controller;
+package com.groades.acl.api.controller;
 
 
-import com.groades.acl.entity.TaskEntity;
-import com.groades.acl.reponse.TaskResponse;
-import com.groades.acl.request.TaskCreationRequest;
+import com.groades.acl.persistence.entity.TaskEntity;
+import com.groades.acl.api.reponse.TaskResponse;
+import com.groades.acl.api.request.TaskCreationRequest;
 import com.groades.acl.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -30,5 +29,10 @@ public class TaskController {
 
         return ResponseEntity.ok(taskService.getAll());
     }
+    @PutMapping("/delete/{id}")
+    public ResponseEntity<TaskResponse> delete(@PathVariable Integer id){
+        return ResponseEntity.ok(taskService.delete(id));
+    }
+
 
 }
